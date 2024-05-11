@@ -13,7 +13,7 @@ Installation
     Clone the repository: git clone https://github.com/yourusername/shop-application.git
     Navigate to the project directory: cd shop-application
     Install dependencies:                                                                                                npm install 
-    npx expo install @react-native-async-storage/async-storage                                                           npm install firebase                                                                                                 npm i expo-image-picker                                                                                              npx expo install expo-image-picker
+    npx expo install @react-native-async-storage/async-storage                                                           npm install firebase                                                                                                 npm i expo-image-picker                                                                                              npx expo install expo-image-picker   npm install react-native-picker-select
 
 
 Usage
