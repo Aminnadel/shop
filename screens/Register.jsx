@@ -33,12 +33,17 @@ const Register = () => {
       const credentials = await register(trimmedEmail, trimmedPassword);
       const id = credentials.user.uid;
 
+      // Create a user document
       await setDoc(doc(db, "users", id), {
         userName: trimmedUserName,
         email: trimmedEmail,
         phone: trimmedPhone,
         address: trimmedAddress,
       });
+
+      // Create a cart collection for the user
+      const cartRef = collection(db, "users", id, "cart");
+      await setDoc(doc(cartRef, id), {}); // Empty cart document
 
       console.log("credentials", id);
       router.navigate(`/account/login`);
