@@ -66,7 +66,7 @@ const ProductAdded = () => {
       }
       const userId = user.uid;
   
-      // Fetch product details
+      
       const firestore = getFirestore();
       const productRef = doc(firestore, "product", productId);
       const productSnapshot = await getDoc(productRef);
@@ -78,20 +78,20 @@ const ProductAdded = () => {
   
       const productData = productSnapshot.data();
   
-      // Check if the photoURL field exists and is defined
+     
       if (!productData.photoURL) {
         console.error("Product photo URL is missing.");
         return;
       }
   
-      // Get a reference to the user's cart collection
+     
       const cartRef = collection(firestore, "users", userId, "cart");
   
-      // Add the product to the cart with its details
+    
       await setDoc(doc(cartRef, productId), {
         name: productData.name,
         price: productData.price,
-        photo: productData.photoURL, // Ensure that the field name matches the actual field in your database
+        photo: productData.photoURL, 
         category: productData.category,
       });
   
@@ -162,7 +162,12 @@ const ProductAdded = () => {
                     </View>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    onPress={() => goToProductDetails(product.id)}
+                     onPress={() =>
+                          router.replace({
+                            pathname: "/account/Singleproudct",
+                            params: { productId: product.id },
+                          })
+                        }
                     style={{
                       backgroundColor: "#FF6347",
                       padding: 10,
@@ -175,12 +180,7 @@ const ProductAdded = () => {
                     <View style={styles.buttonContent}>
                       <Text
                         style={styles.buttonText}
-                        onPress={() =>
-                          router.replace({
-                            pathname: "/account/Singleproudct",
-                            params: { productId: product.id },
-                          })
-                        }
+                       
                       >
                         Go to Product
                       </Text>
