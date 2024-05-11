@@ -14,7 +14,7 @@ import Categories from "./Categories";
 
 const ProductAdded = () => {
   const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true); 
+  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
 
@@ -55,7 +55,9 @@ const ProductAdded = () => {
 
   return (
     <>
+      <View > 
       <Categories />
+      </View>
       <View style={styles.container}>
         <View style={styles.searchContainer}>
           <Image
@@ -64,13 +66,13 @@ const ProductAdded = () => {
           />
           <TextInput
             style={styles.searchInput}
-            placeholder="Search..."
+            placeholder="Search Products..."
             placeholderTextColor="#A9A9A9"
             onChangeText={setSearchQuery}
           />
         </View>
         {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" /> 
+          <ActivityIndicator size="large" color="#0000ff" />
         ) : (
           <View>
             <Text
@@ -79,7 +81,8 @@ const ProductAdded = () => {
                 fontSize: 24,
                 fontStyle: "italic",
                 color: "#102C57",
-                marginBottom: 10,
+                marginBottom: "2%",
+                marginLeft: "4%",
               }}
             >
               Products:
@@ -93,7 +96,7 @@ const ProductAdded = () => {
                   />
                   <Text style={styles.productName}>{product.name}</Text>
                   <Text style={styles.productPrice}>${product.price}</Text>
-                  <Text style={styles.productPrice}> {product.category}</Text>
+                  <Text style={styles.productCategory}> {product.category}</Text>
                   <TouchableOpacity
                     onPress={() => addToCart(product.id)}
                     style={styles.button}
@@ -150,7 +153,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignContent: "center",
     padding: 10,
-    backgroundColor: "#F7F7F7", 
+    backgroundColor: "#F7F7F7",
     width: "100%",
     marginBottom: "5%",
     borderRadius: 10,
@@ -164,6 +167,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   button: {
+   
     backgroundColor: "#FF6347",
     padding: 10,
     alignItems: "center",
@@ -177,25 +181,27 @@ const styles = StyleSheet.create({
   productsContainer: {
     flexDirection: "row",
     width: "100%",
+    marginRight:'4%',
     flexWrap: "wrap",
     justifyContent: "space-between",
     paddingHorizontal: 15,
     minWidth: "100%",
   },
   productContainer: {
+   
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 8,
     padding: 5,
-    marginBottom: 20,
-    width: "48%",
+    marginBottom: "2%",
+    width: "49%",
     shadowOffset: {
       width: 0,
       height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5,
+    elevation: 2,
   },
   productName: {
     fontSize: 18,
@@ -203,12 +209,20 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   productPrice: {
+    color:'blue',
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  productCategory:{
+    color:'brown',
     fontSize: 16,
     marginBottom: 5,
   },
   productImage: {
+    marginTop:'2%',
     width: "100%",
-    height: 200,
+    // maxHeight:"100%",
+    height: 300,
     borderRadius: 8,
   },
   buttonImage: {
@@ -218,31 +232,35 @@ const styles = StyleSheet.create({
     tintColor: "white",
   },
   buttonContent: {
+    
     flexDirection: "row",
     alignItems: "center",
   },
   searchContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginTop: 10,
+    marginTop: "2%",
+    marginBottom: "2%",
+    marginRight: "2%",
     borderWidth: 2,
     borderRadius: 40,
-    width: "100%",
-    height: 50,
+    width: "90%",
+    height: "0.6%",
     backgroundColor: "#FFFFFF",
     opacity: 0.5,
   },
   searchIcon: {
-    height: 30,
-    width: 30,
+    height: 40,
+    width: 40,
     marginLeft: 10,
   },
   searchInput: {
     fontSize: 20,
     marginLeft: 10,
-    color: "#474745", 
+    color: "#474745",
     width: "100%",
   },
+ 
 });
 
 export default ProductAdded;

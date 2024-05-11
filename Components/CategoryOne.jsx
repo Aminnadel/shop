@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import { router } from "expo-router";
+import category from '../assets/hawaiian-shirt.png';
 import backButtonImage from "../assets/back.png";
 const ProductAdded = () => {
   const [products, setProducts] = useState([]);
@@ -47,21 +48,21 @@ const ProductAdded = () => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => router.replace("/account/Home")}
-      >
-        <View style={styles.imagecontainer}>
-          <Image source={backButtonImage} style={styles.backButtonImage} />
-        </View>
-      </TouchableOpacity>
-      
-        {loading ? (
-          <ActivityIndicator size="large" color="#0000ff" />
-        ) : (
-         
-          <View>
-             <ScrollView>
+    <View style={styles.topContainer}>
+        <TouchableOpacity style={styles.backButton} onPress={() => router.replace("/account/Home")}>
+          <View style={styles.imagecontainer}>
+            <Image source={backButtonImage} style={styles.backButtonImage} />
+            </View>
+        </TouchableOpacity>
+        <Image source={category} style={styles.profileImage} />
+    </View>
+    
+      {loading ? (
+        <ActivityIndicator size="large" color="#0000ff" />
+      ) : (
+
+        <View style={styles.bottomContainer}>
+          <ScrollView>
             <Text
               style={{
                 fontWeight: "bold",
@@ -110,7 +111,7 @@ const ProductAdded = () => {
                         style={styles.buttonText}
                         onPress={() =>
                           router.replace({
-                            pathname: "/account/Singleproudct",
+                            pathname: "/account/cspOne",
                             params: { productId: product.id },
                           })
                         }
@@ -126,109 +127,138 @@ const ProductAdded = () => {
                 </View>
               ))}
             </View>
-            </ScrollView>
-          </View>
-        )}
-      
+          </ScrollView>
+        </View>
+      )}
+
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    justifyContent: "center",
     alignItems: "center",
-    alignContent: "center",
-    padding: 10,
+    paddingVertical: 2,
+    borderWidth: 1,
     backgroundColor: "#F7F7F7",
-    width: "100%",
-    marginBottom: "5%",
+    width: '100%',
+    borderColor: "#CCCCCC",
     borderRadius: 10,
+},
+topContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    // justifyContent: 'center',
+    width: '100%',
+    height: '8%',
+    backgroundColor: '#F7F7F7',
+    borderRadius: 0,
     shadowColor: "#000",
     shadowOffset: {
-      width: 0,
+        width: 0,
+        height: 2,
     },
-    minWidth: "100%",
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5,
-  },
-  buttonImage: {
-    width: 20,
-    height: 20,
-    marginLeft: 4,
-    tintColor: "white",
-  },
-  buttonContent: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  backButton: {
+    elevation: 7,
+},
+bottomContainer: {
+    flex: 1,
+    backgroundColor: '#F7F7F7',
+    alignItems: 'center',
+    marginTop: '1%',
     padding: 10,
-    borderRadius: 12,
-    backgroundColor: "#F7F7F7",
-  },
-  backButtonImage: {
-    width: 30,
-    height: 30,
-    tintColor: "black",
-  },
-  button: {
+    width: '100%',
+    shadowColor: "#000",
+    shadowOffset: {
+        width: 0,
+        height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 0,
+},
+button: {
     backgroundColor: "#FF6347",
     padding: 10,
     alignItems: "center",
     marginTop: 10,
     borderRadius: 22,
-  },
-  buttonText: {
+},
+buttonText: {
     color: "white",
     fontWeight: "bold",
-  },
-  productsContainer: {
+},
+productsContainer: {
     flexDirection: "row",
     width: "100%",
     flexWrap: "wrap",
     justifyContent: "space-between",
     paddingHorizontal: 15,
-    minWidth: "100%",
-  },
-  productContainer: {
+},
+productContainer: {
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 8,
     padding: 5,
     marginBottom: 20,
-    width: "48%",
+    width: "48%", // Adjust the width to leave space for margins
     shadowOffset: {
-      width: 0,
-      height: 2,
+        width: 0,
+        height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-  },
-  productName: {
+},
+productName: {
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 5,
-  },
-  productPrice: {
+},
+productPrice: {
+  color:'blue',
     fontSize: 16,
     marginBottom: 5,
-  },
-  productImage: {
+},
+productImage: {
     width: "100%",
     height: 200,
     borderRadius: 8,
-  },
-  buttonImage: {
+},
+buttonImage: {
     width: 20,
     height: 20,
     marginLeft: 4,
     tintColor: "white",
-  },
-  buttonContent: {
+},
+
+buttonContent: {
     flexDirection: "row",
     alignItems: "center",
+},
+backButton: {
+    padding: 10,
+    borderRadius: 12,
+    backgroundColor: "#F7F7F7",
+},
+backButtonImage: {
+    width: 30,
+    height: 30,
+    tintColor: "black", // Change the color of the image if necessary
+},
+imagecontainer:{
+    justifyContent:'center',
+    alignSelf:'center', 
+},
+profileImage: {
+
+    width: 50,
+    height: 50,
+    marginLeft: '38%',
+    justifyContent:'center'
   },
 });
 

@@ -55,7 +55,7 @@ export default function Categories() {
 const styles = StyleSheet.create({
   container: {
     marginBottom: "2%",
-    padding: 10,
+    padding: 20,
     width: "100%",
     borderRadius: 10,
     backgroundColor: "#F7F7F7",
@@ -80,17 +80,18 @@ const styles = StyleSheet.create({
   },
   categories: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    // justifyContent: "space-between",
     alignItems: "center",
     alignContent: "center",
   },
   boxes: {
-    marginBottom: 10,
+    marginRight:'2.5%',
+    marginBottom: "1%",
     width: 130,
     height: 150, 
     backgroundColor: "white",
     paddingVertical: 5,
-    paddingHorizontal: 10,
+    paddingHorizontal: 15,
     borderRadius: 40,
     shadowColor: "#000",
     shadowOffset: {

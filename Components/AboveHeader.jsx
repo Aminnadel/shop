@@ -91,31 +91,17 @@ export default function AboveHeader() {
       </View>
 
       <View style={styles.navigationBar}>
-        <TouchableOpacity
-          onPress={() => router.replace("/account/MyProfile")}
-          style={styles.navButton}
-        >
-          <Image source={require("../assets/user.png")} style={styles.icon} />
-          <Text style={{ fontSize: 17, color: "black" }}>Profile</Text>
+        <TouchableOpacity onPress={() => router.replace("/account/MyProfile")} style={styles.navButton}>
+          <Image source={require('../assets/user.png')} style={styles.icon} />
+          <Text style={{ fontSize: 17, color: 'black' }}>Profile</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => router.replace("/account/Cart")}
-          style={styles.navButton}
-        >
-          <Text style={{ fontSize: 17, color: "black" }}>Cart</Text>
-          <Image
-            source={require("../assets/shopping-cart.png")}
-            style={styles.icon}
-          />
+        <TouchableOpacity onPress={() => router.replace("/account/Cart")} style={styles.navButton}>
+          <Text style={{ fontSize: 17, color: 'black' }}>Cart</Text>
+          <Image source={require('../assets/shopping-cart.png')} style={styles.icon} />
         </TouchableOpacity>
         <TouchableOpacity onPress={handleLogout} style={styles.navButton}>
-          <Text style={{ fontSize: 17, fontWeight: "700", color: "maroon" }}>
-            Logout
-          </Text>
-          <Image
-            source={require("../assets/logout_icon.png")}
-            style={styles.logoutIcon}
-          />
+          <Text style={{ fontSize: 17, fontWeight: '700', color: 'maroon' }}>Logout</Text>
+          <Image source={require('../assets/logout_icon.png')} style={styles.logoutIcon} />
         </TouchableOpacity>
       </View>
     </View>
@@ -123,13 +109,14 @@ export default function AboveHeader() {
 }
 
 const styles = StyleSheet.create({
+
   topcontainer: {
-    width: "100%",
-    height: "6%",
-    backgroundColor: "#404040",
+    width: '100%',
+    height: '2%',
+    backgroundColor: '#404040', // Metallic color with opacity
     borderRadius: 12,
-    paddingVertical: 8,
-    marginBottom: "1%",
+    paddingVertical:8,
+    marginBottom: '1%',
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -148,40 +135,41 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     marginLeft: 15,
     marginRight: 430,
-    borderColor: "#102C57",
+    borderColor: '#102C57', // Dark blue border color
   },
   username: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 30,
     marginRight: 190,
     marginTop: -70,
-    color: "white",
+    color: 'white', // Dark blue text color
   },
   welcomeText: {
     fontSize: 18,
     marginRight: 200,
     marginTop: -55,
-    color: "white",
+    color: 'white', // Dark gray text color
   },
   navigationBar: {
-    marginLeft: "5%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    alignContent: "center",
-    marginBottom: "2%",
+    marginLeft:'3%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    alignContent: 'center',
+    marginBottom: '2%',
+    marginTop: '2%',
     width: "90%",
-    backgroundColor: "lightgrey",
+    backgroundColor: 'lightgrey',
     paddingVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 40,
   },
   navButton: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingVertical: 10,
     paddingHorizontal: 20,
-    backgroundColor: "lightgrey",
+    backgroundColor: 'lightgrey',
     margin: 1,
     borderRadius: 24,
   },
@@ -200,3 +188,4 @@ const styles = StyleSheet.create({
     tintColor: "black",
   },
 });
+

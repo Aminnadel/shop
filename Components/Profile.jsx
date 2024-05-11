@@ -135,9 +135,8 @@ const Profile = () => {
           <Text style={styles.text}>Upload your photo!</Text>
         </TouchableOpacity>
         <View style={styles.info}>
-          <Text style={styles.text1}>NAME: {name}</Text>
-          <Text style={styles.text1}>PHONE: {phone}</Text>
-          <Text style={styles.text1}>ADDRESS: {adress}</Text>
+          <Text style={styles.text1}>NAME : {name}</Text>
+          <Text style={styles.text1}>PHONE : {phone}</Text>
         </View>
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
           <Text style={styles.text}>Log Out</Text>
@@ -156,17 +155,17 @@ const styles = StyleSheet.create({
     paddingVertical: 2,
     borderWidth: 1,
     backgroundColor: "#F7F7F7",
-    width: "100%",
+    width: '100%',
     borderColor: "#CCCCCC",
     borderRadius: 10,
   },
   topContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-    height: "8%",
-    backgroundColor: "#F7F7F7",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: '8%',
+    backgroundColor: '#F7F7F7',
     borderRadius: 0,
     shadowColor: "#000",
     shadowOffset: {
@@ -178,7 +177,7 @@ const styles = StyleSheet.create({
     elevation: 7,
   },
   backButton: {
-    position: "absolute",
+    position: 'absolute',
     left: 15,
   },
   backButtonImage: {
@@ -189,7 +188,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 35,
     fontWeight: "bold",
-    color: "black",
+    color: 'black',
   },
   profileImage: {
     width: 50,
@@ -198,11 +197,11 @@ const styles = StyleSheet.create({
   },
   bottomContainer: {
     flex: 1,
-    backgroundColor: "#F7F7F7",
-    alignItems: "center",
-    marginTop: "1%",
+    backgroundColor: '#F7F7F7',
+    alignItems: 'center',
+    marginTop: '1%',
     padding: 10,
-    width: "100%",
+    width: '100%',
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -213,36 +212,37 @@ const styles = StyleSheet.create({
     elevation: 0,
   },
   photoCont: {
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     margin: 10,
     borderWidth: 1,
     width: 300,
     height: 300,
     borderRadius: 150,
-    overflow: "hidden",
-    marginTop: "10%",
+    overflow: 'hidden',
+    marginTop: '10%',
   },
   image: {
-    width: "100%",
-    height: "100%",
+    width: '100%',
+    height: '100%',
     borderRadius: 150,
   },
   button: {
     marginBottom: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "darkcyan",
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'darkcyan',
     padding: 15,
     borderRadius: 20,
     marginTop: 20,
     width: "50%",
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   info: {
     padding: 25,
-    margin: 20,
+    margin: 10,
     backgroundColor: "lightgrey",
+    justifyContent:'center',
     borderRadius: 25,
     width: "70%",
     height: "20%",
@@ -256,33 +256,34 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   text: {
-    fontSize: 20,
-    paddingVertical: "1.5%",
-    color: "darkcyan",
-    fontWeight: "bold",
+    fontSize: 15,
+    paddingVertical:'1.5%',
+    color: 'white',
+    fontWeight: 'bold',
   },
   text1: {
-    fontSize: 20,
-    paddingVertical: "1.5%",
-    fontWeight: "bold",
+    fontSize: 15,
+    paddingVertical:'1.5%',
+    color: 'black',
+    fontWeight: 'bold',
   },
   logoutButton: {
     marginBottom: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "maroon",
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'maroon',
     padding: 15,
     borderRadius: 20,
     marginTop: 20,
     width: "40%",
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   buttonImage: {
     width: 20,
     height: 20,
     marginRight: 5,
-    marginLeft: 5,
-    tintColor: "white",
+    marginLeft:5,
+    tintColor:'white'
   },
 });
 
