@@ -8,8 +8,16 @@ import {
   ActivityIndicator,
   TextInput,
 } from "react-native";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  getDoc,
+  doc,
+  setDoc,
+} from "firebase/firestore";
 import { router } from "expo-router";
+import { auth } from "../firebase/Config";
 import Categories from "./Categories";
 
 const ProductAdded = () => {
@@ -49,14 +57,55 @@ const ProductAdded = () => {
     router.push(`/product/${productId}`);
   };
 
-  const addToCart = (productId) => {
-    console.log("Product added to cart:", productId);
+  const addToCart = async (productId) => {
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        console.error("User not authenticated.");
+        return;
+      }
+      const userId = user.uid;
+  
+      // Fetch product details
+      const firestore = getFirestore();
+      const productRef = doc(firestore, "product", productId);
+      const productSnapshot = await getDoc(productRef);
+  
+      if (!productSnapshot.exists()) {
+        console.error("Product not found.");
+        return;
+      }
+  
+      const productData = productSnapshot.data();
+  
+      // Check if the photoURL field exists and is defined
+      if (!productData.photoURL) {
+        console.error("Product photo URL is missing.");
+        return;
+      }
+  
+      // Get a reference to the user's cart collection
+      const cartRef = collection(firestore, "users", userId, "cart");
+  
+      // Add the product to the cart with its details
+      await setDoc(doc(cartRef, productId), {
+        name: productData.name,
+        price: productData.price,
+        photo: productData.photoURL, // Ensure that the field name matches the actual field in your database
+        category: productData.category,
+      });
+  
+      console.log("Product added to cart:", productId);
+    } catch (error) {
+      console.error("Error adding product to cart:", error);
+    }
   };
+  
 
   return (
     <>
-      <View > 
-      <Categories />
+      <View>
+        <Categories />
       </View>
       <View style={styles.container}>
         <View style={styles.searchContainer}>
@@ -96,7 +145,10 @@ const ProductAdded = () => {
                   />
                   <Text style={styles.productName}>{product.name}</Text>
                   <Text style={styles.productPrice}>${product.price}</Text>
-                  <Text style={styles.productCategory}> {product.category}</Text>
+                  <Text style={styles.productCategory}>
+                    {" "}
+                    {product.category}
+                  </Text>
                   <TouchableOpacity
                     onPress={() => addToCart(product.id)}
                     style={styles.button}
@@ -167,7 +219,6 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   button: {
-   
     backgroundColor: "#FF6347",
     padding: 10,
     alignItems: "center",
@@ -181,14 +232,13 @@ const styles = StyleSheet.create({
   productsContainer: {
     flexDirection: "row",
     width: "100%",
-    marginRight:'4%',
+    marginRight: "4%",
     flexWrap: "wrap",
     justifyContent: "space-between",
     paddingHorizontal: 15,
     minWidth: "100%",
   },
   productContainer: {
-   
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 8,
@@ -209,17 +259,17 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   productPrice: {
-    color:'blue',
+    color: "blue",
     fontSize: 16,
     marginBottom: 5,
   },
-  productCategory:{
-    color:'brown',
+  productCategory: {
+    color: "brown",
     fontSize: 16,
     marginBottom: 5,
   },
   productImage: {
-    marginTop:'2%',
+    marginTop: "2%",
     width: "100%",
     // maxHeight:"100%",
     height: 300,
@@ -232,7 +282,6 @@ const styles = StyleSheet.create({
     tintColor: "white",
   },
   buttonContent: {
-    
     flexDirection: "row",
     alignItems: "center",
   },
@@ -260,7 +309,6 @@ const styles = StyleSheet.create({
     color: "#474745",
     width: "100%",
   },
- 
 });
 
 export default ProductAdded;
