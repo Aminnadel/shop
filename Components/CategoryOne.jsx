@@ -203,7 +203,7 @@ productContainer: {
     borderRadius: 8,
     padding: 5,
     marginBottom: 20,
-    width: "48%", // Adjust the width to leave space for margins
+    width: "48%", 
     shadowOffset: {
         width: 0,
         height: 2,
@@ -246,7 +246,7 @@ backButton: {
 backButtonImage: {
     width: 30,
     height: 30,
-    tintColor: "black", // Change the color of the image if necessary
+    tintColor: "black",
 },
 imagecontainer:{
     justifyContent:'center',
