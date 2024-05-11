@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
-// import Carousel from 'react-native-snap-carousel';
+ import Carousel from 'react-native-snap-carousel';
 import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { auth } from "../firebase/Config";
@@ -55,14 +55,14 @@ export default function Header() {
 
   return (
     <View style={styles.container}>
-      {/* <Carousel
+      <Carousel
         data={carouselData}
         renderItem={renderCarouselItem}
         sliderWidth={500}
         itemWidth={200}
         layout="default"
         loop
-      /> */}
+      />
     </View>
   );
 }
