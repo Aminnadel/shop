@@ -8,13 +8,13 @@ import {
   TextInput,
   ScrollView,
 } from "react-native";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, getDoc ,setDoc} from "firebase/firestore";
 import backButtonImage from "../assets/back.png";
 import { useLocalSearchParams } from "expo-router";
 import { db } from "../firebase/Config";
 import { router } from "expo-router";
 import Review from "./Review";
-
+import { auth } from "../firebase/Config";
 const SingleProduct = () => {
   const [product, setProduct] = useState(null);
   const [comment, setComment] = useState("");
@@ -47,6 +47,25 @@ const SingleProduct = () => {
     }
   };
 
+  const addToCart = async (productId) => {
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        console.error("User not authenticated.");
+        return;
+      }
+  
+      const userId = user.uid;
+      const firestore = getFirestore();
+      const cartRef = doc(firestore, "users", userId, "cart", productId);
+      await setDoc(cartRef, { productId, quantity: 1 }); 
+      console.log("Product added to cart:", productId);
+    } catch (error) {
+      console.error("Error adding product to cart:", error);
+    }
+  };
+
+
   if (!product) {
     return (
       <View style={styles.container}>
@@ -77,20 +96,9 @@ const SingleProduct = () => {
         <View style={styles.reviewbox}>
           <Review />
         </View>
-        {/* <View style={{flexDirection:'row', justifyContent: "space-between",}}>
-          <TextInput
-            placeholder="Write a comment..."
-            style={styles.input}
-            value={comment}
-            onChangeText={setComment}
-          />
-          <TouchableOpacity onPress={sendComment} style={styles.sendButton}>
-            <Text style={styles.sendButtonText}>Send</Text>
-          </TouchableOpacity>
-          </View> */}
         <ScrollView style={styles.commentsContainer}></ScrollView>
         <TouchableOpacity
-          // onPress={() => addToCart(product.id)}
+          onPress={() => addToCart(product.id)}
           style={styles.button}
         >
           <View style={styles.buttonContent}>
@@ -167,6 +175,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   productPrice: {
+    color:'blue',
     fontSize: 20,
     marginBottom: 10,
   },
