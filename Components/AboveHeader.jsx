@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   topcontainer: {
     width: '100%',
     height: '2%',
-    backgroundColor: '#404040', // Metallic color with opacity
+    backgroundColor: '#404040', 
     borderRadius: 12,
     paddingVertical:8,
     marginBottom: '1%',
@@ -135,20 +135,20 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     marginLeft: 15,
     marginRight: 430,
-    borderColor: '#102C57', // Dark blue border color
+    borderColor: '#102C57', 
   },
   username: {
     fontWeight: 'bold',
     fontSize: 30,
     marginRight: 190,
     marginTop: -70,
-    color: 'white', // Dark blue text color
+    color: 'white', 
   },
   welcomeText: {
     fontSize: 18,
     marginRight: 200,
     marginTop: -55,
-    color: 'white', // Dark gray text color
+    color: 'white',
   },
   navigationBar: {
     marginLeft:'3%',
