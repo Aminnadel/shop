@@ -1,24 +1,9 @@
 import React, { useState } from "react";
-import {
-  View,
-  TextInput,
-  Button,
-  Alert,
-  Image,
-  StyleSheet,
-  Picker,
-  Pressable,
-  SafeAreaView,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-} from "react-native";
+import { View, TextInput, Alert, Image, StyleSheet, Text, TouchableOpacity } from "react-native";
 import {
   getFirestore,
   collection,
   addDoc,
-  doc,
-  setDoc,
 } from "firebase/firestore";
 import { router } from "expo-router";
 import firebase from "firebase/compat/app";
@@ -27,11 +12,11 @@ import {
   ref,
   uploadBytes,
   getDownloadURL,
-  uploadResumableBytes,
 } from "firebase/storage";
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
-import backButtonImage from "../assets/back.png";
+import RNPickerSelect from 'react-native-picker-select'; 
+import backButtonImage from '../assets/back.png';
 
 const AddProductWithPhoto = () => {
   const [productName, setProductName] = useState("");
@@ -40,12 +25,6 @@ const AddProductWithPhoto = () => {
   const [url, setUrl] = useState("");
   const [loading, setUploading] = useState(false);
   const [productCategory, setProductCategory] = useState("");
-  const categories = [
-    "Men Clothing",
-    "Women Clothing",
-    "Accessories",
-    "Electronics",
-  ];
   const pickFile = async () => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
@@ -68,9 +47,9 @@ const AddProductWithPhoto = () => {
       const { uri } = await FileSystem.getInfoAsync(image);
       const blob = await fetch(uri).then((response) => response.blob());
       const filename = uri.substring(uri.lastIndexOf("/") + 1);
-      const ref = firebase.storage().ref().child(filename);
-      await ref.put(blob);
-      setUrl(await ref.getDownloadURL());
+      const storageRef = firebase.storage().ref().child(filename);
+      await storageRef.put(blob);
+      setUrl(await storageRef.getDownloadURL());
       console.log("Download URL:", url);
       Alert.alert("Upload Completed");
     } catch (error) {
@@ -99,6 +78,7 @@ const AddProductWithPhoto = () => {
       Alert.alert("Success", "Product added successfully.");
       setProductName("");
       setProductPrice("");
+      setProductCategory("");
       setImage(null);
     } catch (error) {
       console.error("Error adding product:", error);
@@ -113,140 +93,84 @@ const AddProductWithPhoto = () => {
   const handleBack = () => {
     router.replace("/account/adminhome");
   };
-
+  
+  // const categories = [
+  //   "Men Clothing",
+  //   "Women Clothing",
+  //   "Accessories",
+  //   "Electronics",
+  // ];
+  const options = [
+    { label: "men's Clothing", value: "men's Clothing" },
+    { label: "Women's clothing", value: "Women's clothing" },
+    { label: "Jewelery", value: "Jewelery" },
+    { label:"Electronics", value: "Electronics" },
+  ];
+  const placeholder = {
+    label: 'Select Category',
+    value: null,
+  };
   return (
-    <SafeAreaView>
-      <ScrollView>
-        <View style={styles.container}>
-          <View style={styles.topContainer}>
-            <TouchableOpacity style={styles.backButton} onPress={handleBack}>
-              <Image source={backButtonImage} style={styles.backButtonImage} />
-            </TouchableOpacity>
+    <View style={styles.container}>
+      <View style={styles.topContainer}>
+        <TouchableOpacity style={styles.backButton} onPress={handleBack}>
+          <Image source={backButtonImage} style={styles.backButtonImage} />
+        </TouchableOpacity>
+        <Image source={require('../assets/add-post.png')} style={styles.addPostImage} />
+      </View>
+      <View style={styles.bottomContainer}>
+        <View style={styles.containerimag}>
+          {image && (
             <Image
-              source={require("../assets/add-post.png")}
-              style={styles.addPostImage}
+              source={{ uri: image }}
+              style={styles.image}
             />
-          </View>
-          <View style={styles.bottomContainer}>
-            <View style={styles.containerimag}>
-              {image && <Image source={{ uri: image }} style={styles.image} />}
-            </View>
-
-            <TouchableOpacity onPress={pickFile} style={styles.button}>
-              <Text
-                style={{
-                  color: "white",
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  marginLeft: "20%",
-                }}
-              >
-                CHOOSE PHOTO
-              </Text>
-              <Image
-                source={require("../assets/upload.png")}
-                style={styles.buttonImage}
-              />
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={uploadFile} style={styles.button}>
-              <Text
-                style={{
-                  color: "white",
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  marginLeft: "20%",
-                }}
-              >
-                CONFIRM PHOTO
-              </Text>
-              <Image
-                source={require("../assets/photo.png")}
-                style={styles.buttonImage}
-              />
-            </TouchableOpacity>
-
-            <View style={styles.inputContainer}>
-              <TextInput
-                style={{
-                  width: "80%",
-                  height: "20%",
-                  borderBottomWidth: 3,
-                  borderBottomColor: "black",
-                  paddingHorizontal: 10,
-                  marginBottom: "10%",
-                  marginTop: "5%",
-                  marginLeft: "10%",
-                  color: "#474745",
-                }}
-                placeholder="Product Title"
-                value={productName}
-                onChangeText={setProductName}
-              />
-              <TextInput
-                style={{
-                  width: "80%",
-                  height: "20%",
-                  borderBottomWidth: 3,
-                  borderBottomColor: "black",
-                  paddingHorizontal: 10,
-                  marginLeft: "10%",
-                  color: "#474745",
-                }}
-                placeholder="Product Price"
-                value={productPrice}
-                onChangeText={setProductPrice}
-                keyboardType="numeric"
-              />
-              <Picker
-                selectedValue={productCategory}
-                onValueChange={setProductCategory}
-                style={styles.picker}
-              >
-                <Picker.Item label="Select Category" value="" />
-                {categories.map((cat, index) => (
-                  <Picker.Item key={index} label={cat} value={cat} />
-                ))}
-              </Picker>
-            </View>
-            <TouchableOpacity onPress={handleAddProduct} style={styles.button}>
-              <Text
-                style={{
-                  color: "white",
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  marginLeft: "20%",
-                }}
-              >
-                ADD PRODUCT
-              </Text>
-              <Image
-                source={require("../assets/add.png")}
-                style={styles.buttonImage}
-              />
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={goToProductAdded} style={styles.button}>
-              <Text
-                style={{
-                  color: "white",
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  marginLeft: "15%",
-                }}
-              >
-                {" "}
-                ADDED PRODUCTS
-              </Text>
-              <Image
-                source={require("../assets/eye.png")}
-                style={styles.buttonImage}
-              />
-            </TouchableOpacity>
-          </View>
+          )}
         </View>
-      </ScrollView>
-    </SafeAreaView>
+
+        <TouchableOpacity onPress={pickFile} style={styles.button}>
+          <Text style={styles.buttonText}>CHOOSE PHOTO</Text>
+          <Image source={require('../assets/upload.png')} style={styles.buttonImage} />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={uploadFile} style={styles.button}>
+          <Text style={styles.buttonText}>UPDATE PHOTO</Text>
+          <Image source={require('../assets/photo.png')} style={styles.buttonImage} />
+        </TouchableOpacity>
+
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Product Title"
+            value={productName}
+            onChangeText={setProductName}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Product Price"
+            value={productPrice}
+            onChangeText={setProductPrice}
+            keyboardType="numeric"
+          />
+          <RNPickerSelect
+            placeholder={placeholder}
+            items={options}
+            onValueChange={setProductCategory}
+            value={productCategory}
+          />
+        </View>
+
+        <TouchableOpacity onPress={handleAddProduct} style={styles.button}>
+          <Text style={styles.buttonText}>ADD PRODUCT</Text>
+          <Image source={require('../assets/add.png')} style={styles.buttonImage} />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={goToProductAdded} style={styles.button}>
+          <Text style={styles.buttonText}>ADDED PRODUCTS</Text>
+          <Image source={require('../assets/eye.png')} style={styles.buttonImage} />
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 
@@ -255,25 +179,18 @@ const styles = StyleSheet.create({
     flex: 1,
     alignContent: "center",
     padding: 10,
-    backgroundColor: "#F7F7F7",
-    width: "100%",
-    borderColor: "#474745",
+    backgroundColor: '#F7F7F7',
+    width: '100%',
+    borderColor: '#474745',
     borderRadius: 12,
   },
-  picker: {
-    width: "80%",
-    height: "20%",
-    borderBottomWidth: 3,
-    borderBottomColor: "black",
-    paddingHorizontal: 10,
-  },
   topContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-    height: "8%",
-    backgroundColor: "#F7F7F7",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+    height: '8%',
+    backgroundColor: '#F7F7F7',
     borderRadius: 0,
     shadowColor: "#000",
     shadowOffset: {
@@ -284,14 +201,13 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 7,
   },
-
   bottomContainer: {
     flex: 1,
-    backgroundColor: "#F7F7F7",
-    alignItems: "center",
-    marginTop: "1%",
+    backgroundColor: '#F7F7F7',
+    alignItems: 'center',
+    marginTop: '1%',
     padding: 10,
-    width: "100%",
+    width: '100%',
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -303,7 +219,7 @@ const styles = StyleSheet.create({
   },
   containerimag: {
     width: "70%",
-    height: "30%",
+    height: '30%',
     borderWidth: 0.5,
     alignItems: "center",
     justifyContent: "center",
@@ -311,24 +227,28 @@ const styles = StyleSheet.create({
   },
   image: {
     borderWidth: 1,
-    alignSelf: "flex-start",
-    width: "100%",
-    height: "100%",
+    alignSelf: 'flex-start',
+    width: '100%',
+    height: '100%',
     borderRadius: 15,
   },
   button: {
-    flexDirection: "row",
-    backgroundColor: "darkcyan",
+    flexDirection: 'row',
+    backgroundColor: 'darkcyan',
     padding: 10,
-    alignItems: "center",
-    alignSelf: "flex-start",
-    marginTop: "2%",
-    width: "40%",
-    marginLeft: "30%",
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    marginTop: '2%',
+    width: '40%',
+    marginLeft: '30%',
     borderRadius: 22,
   },
-  buttonText: {},
-
+  buttonText: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginLeft: "20%",
+  },
   backButton: {
     padding: 10,
     marginRight: 10,
@@ -338,15 +258,14 @@ const styles = StyleSheet.create({
     height: 30,
     tintColor: "black",
   },
-
   inputContainer: {
-    marginTop: "10%",
-    width: "80%",
-    height: "20%",
-    backgroundColor: "#FFF",
+    marginTop: '4%',
+    width: '80%',
+    height: '20%',
+    backgroundColor: '#FFF',
     borderRadius: 12,
     padding: 10,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -356,17 +275,28 @@ const styles = StyleSheet.create({
     elevation: 5,
     marginBottom: 20,
   },
+  input: {
+    width: "80%",
+    height: "20%",
+    borderBottomWidth: 3,
+    borderBottomColor: "black",
+    paddingHorizontal: 10,
+    marginBottom: '4%',
+    marginTop: '2%',
+    marginLeft: '10%',
+    color: "#474745",
+  },
   addPostImage: {
     width: 30,
     height: 30,
-    alignSelf: "center",
-    marginRight: "47%", 
+    alignSelf: 'center',
+    marginRight: "47%",
   },
   buttonImage: {
     width: 20,
     height: 20,
     marginLeft: 5,
-    tintColor: "white", 
+    tintColor: 'white',
   },
 });
 
