@@ -96,7 +96,12 @@ const ProductAdded = () => {
                     </View>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    onPress={() => goToProductDetails(product.id)}
+                     onPress={() =>
+                          router.replace({
+                            pathname: "/account/cspOne",
+                            params: { productId: product.id },
+                          })
+                        }
                     style={{
                       backgroundColor: "#FF6347",
                       padding: 10,
@@ -109,12 +114,6 @@ const ProductAdded = () => {
                     <View style={styles.buttonContent}>
                       <Text
                         style={styles.buttonText}
-                        onPress={() =>
-                          router.replace({
-                            pathname: "/account/cspOne",
-                            params: { productId: product.id },
-                          })
-                        }
                       >
                         Go to Product
                       </Text>
